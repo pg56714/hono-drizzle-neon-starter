@@ -1,0 +1,37 @@
+# https://open-vsx.org/extension/humao/rest-client
+
+###
+GET http://localhost:5173/
+
+###
+GET http://localhost:5173/hello
+
+###
+POST http://localhost:5173/
+
+###
+GET http://localhost:5173/hi
+
+###
+GET http://localhost:5173/user/Sam
+
+###
+GET http://localhost:5173/user
+
+###
+GET http://localhost:5173/greet/user/Sam
+
+###
+GET http://localhost:5173/greet/user/Sam/20
+
+###
+GET http://localhost:5173/?q=xxx&limit=10&offset=0
+
+###
+POST http://localhost:5173/
+Content-Type: application/json
+
+{
+    "name": "Sam",
+    "age": 21
+}

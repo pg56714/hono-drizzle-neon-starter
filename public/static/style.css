@@ -1,0 +1,22 @@
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.book-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.book-row .book-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.book-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
