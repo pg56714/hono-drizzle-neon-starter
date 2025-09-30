@@ -7,7 +7,7 @@ const client = hc<AppType>("/");
 
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editAuthor, setEditAuthor] = useState("");
   useEffect(() => {
@@ -38,8 +38,8 @@ function App() {
 
   function startEdit(book: Book) {
     setEditingId(book.id);
-    setEditTitle(book.title);
-    setEditAuthor(book.author);
+    setEditTitle(book.title ?? "");
+    setEditAuthor(book.author ?? "");
   }
 
   function cancelEdit() {
@@ -48,7 +48,7 @@ function App() {
     setEditAuthor("");
   }
 
-  async function saveEdit(id: number) {
+  async function saveEdit(id: string) {
     await client.book[":id"].$put({
       param: { id: String(id) },
       json: { title: editTitle, author: editAuthor },
@@ -57,7 +57,7 @@ function App() {
     cancelEdit();
   }
 
-  async function deleteBook(id: number) {
+  async function deleteBook(id: string) {
     await client.book[":id"].$delete({
       param: { id: String(id) },
     });

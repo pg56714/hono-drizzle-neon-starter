@@ -6,17 +6,23 @@
     "build": "vite build --mode client && vite build",
     "preview": "wrangler pages dev",
     "deploy": "bun run build && wrangler pages deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.7.3",
+    "@neondatabase/serverless": "^1.0.1",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.5",
     "hono": "^4.9.9",
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@hono/vite-build": "^1.2.0",
-    "@hono/vite-dev-server": "^0.18.2",
-    "vite": "^6.3.5",
-    "wrangler": "^4.4.0"
+    "@hono/vite-build": "^1.7.0",
+    "@hono/vite-dev-server": "^0.21.1",
+    "drizzle-kit": "^0.31.5",
+    "vite": "^7.1.7",
+    "wrangler": "^4.40.2"
   }
 }
