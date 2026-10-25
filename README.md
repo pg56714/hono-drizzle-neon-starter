@@ -46,3 +46,7 @@ Copy `.dev.vars.sample` to `.dev.vars` and set `DATABASE_URL` (used by `bun run 
 
 - `/book/:id` only accepts UUIDs (validated with zod before querying the database).
 - The `/book` API has no authentication; add auth middleware before exposing it publicly.
+
+## Security
+
+Dependency upgrades and the known remaining issues are recorded in [docs/security-log.md](docs/security-log.md) ([繁體中文](docs/security-log.zh-TW.md)).
