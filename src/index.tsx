@@ -25,7 +25,9 @@ const routes = app
           <meta content="width=device-width, initial-scale=1" name="viewport" />
           <link
             rel="stylesheet"
-            href="https://cdn.simplecss.org/simple.min.css"
+            href="https://cdn.jsdelivr.net/npm/simpledotcss@2.3.7/simple.min.css"
+            integrity="sha384-w3/JhK7GP1jIgYT9phdYXYeUKzhTc4AxDpfqFZO1tkmCHBZrEmZ2c68gaD1yKhZq"
+            crossOrigin="anonymous"
           />
           <link rel="stylesheet" href="/static/style.css" />
           {import.meta.env.PROD ? (

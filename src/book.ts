@@ -15,6 +15,10 @@ export interface Book {
   author: string | null;
 }
 
+const idParamSchema = z.object({
+  id: z.uuid("Invalid id"),
+});
+
 const bookSchema = z.object({
   title: z.string().min(1, "Title is required"),
   author: z.string().min(1, "Author is required"),
@@ -41,9 +45,8 @@ const bookRoute = new Hono<{ Bindings: Env }>()
     }
   )
   // Get a single book by id
-  .get("/:id", async (c) => {
-    const id = c.req.param("id");
-    if (!id) return c.json({ message: "Invalid id" }, 400);
+  .get("/:id", zValidator("param", idParamSchema), async (c) => {
+    const { id } = c.req.valid("param");
     const db = drizzle(c.env.DATABASE_URL);
     const rows = await db.select().from(book).where(eq(book.id, id)).limit(1);
     const found = rows[0];
@@ -61,23 +64,26 @@ const bookRoute = new Hono<{ Bindings: Env }>()
     return c.json(created, 201);
   })
   // Update a book fully
-  .put("/:id", zValidator("json", bookSchema), async (c) => {
-    const id = c.req.param("id");
-    if (!id) return c.json({ message: "Invalid id" }, 400);
-    const { title, author } = c.req.valid("json");
-    const db = drizzle(c.env.DATABASE_URL);
-    const [updated] = await db
-      .update(book)
-      .set({ title, author })
-      .where(eq(book.id, id))
-      .returning();
-    if (!updated) return c.json({ message: "Book not found" }, 404);
-    return c.json(updated);
-  })
+  .put(
+    "/:id",
+    zValidator("param", idParamSchema),
+    zValidator("json", bookSchema),
+    async (c) => {
+      const { id } = c.req.valid("param");
+      const { title, author } = c.req.valid("json");
+      const db = drizzle(c.env.DATABASE_URL);
+      const [updated] = await db
+        .update(book)
+        .set({ title, author })
+        .where(eq(book.id, id))
+        .returning();
+      if (!updated) return c.json({ message: "Book not found" }, 404);
+      return c.json(updated);
+    }
+  )
   // Delete a book
-  .delete("/:id", async (c) => {
-    const id = c.req.param("id");
-    if (!id) return c.json({ message: "Invalid id" }, 400);
+  .delete("/:id", zValidator("param", idParamSchema), async (c) => {
+    const { id } = c.req.valid("param");
     const db = drizzle(c.env.DATABASE_URL);
     const [removed] = await db.delete(book).where(eq(book.id, id)).returning();
     if (!removed) return c.json({ message: "Book not found" }, 404);
