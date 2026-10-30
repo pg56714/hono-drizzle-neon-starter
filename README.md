@@ -1,7 +1,5 @@
 # hono-drizzle-neon-starter
 
-> **Security:** see [SECURITY.md](SECURITY.md) for known dependency issues.
-
 A serverless API starter on Cloudflare Workers with Hono, Drizzle ORM, and Neon Postgres—Type-safe schema, edge-first routing, and zero-cold-start DX.
 
 ![repo preview](./assets/01.png)
@@ -42,9 +40,9 @@ bun run db:generate to generate the schema
 bun run db:migrate to migrate the schema
 ```
 
-Copy `.dev.vars.sample` to `.dev.vars` and set `DATABASE_URL` (used by `bun run dev`, `wrangler pages dev` and drizzle-kit). In production, set it as a Cloudflare secret instead of committing it.
+Copy `.dev.vars.sample` to `.dev.vars` and set `DATABASE_URL` (used by `bun run dev`, `wrangler pages dev` and drizzle-kit) and `API_TOKEN`. In production, set both as Cloudflare secrets instead of committing them.
 
 ## Notes
 
 - `/book/:id` only accepts UUIDs (validated with zod before querying the database).
-- The `/book` API has no authentication; add auth middleware before exposing it publicly.
+- Reading books is public. Creating, updating and deleting require `Authorization: Bearer <API_TOKEN>`; enter the token in the page to use those buttons. If `API_TOKEN` is not set, writes are rejected.

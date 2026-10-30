@@ -5,8 +5,10 @@ import { zValidator } from "@hono/zod-validator";
 import { book } from "./db/schema";
 import { drizzle } from "drizzle-orm/neon-http";
 import { eq } from "drizzle-orm";
+import { requireToken } from "./middleware/requireToken";
 interface Env {
   DATABASE_URL: string;
+  API_TOKEN?: string;
 }
 
 export interface Book {
@@ -54,7 +56,7 @@ const bookRoute = new Hono<{ Bindings: Env }>()
     return c.json(found);
   })
   // Create a new book
-  .post("/", zValidator("json", bookSchema), async (c) => {
+  .post("/", requireToken, zValidator("json", bookSchema), async (c) => {
     const { title, author } = c.req.valid("json");
     const db = drizzle(c.env.DATABASE_URL);
     const [created] = await db
@@ -66,6 +68,7 @@ const bookRoute = new Hono<{ Bindings: Env }>()
   // Update a book fully
   .put(
     "/:id",
+    requireToken,
     zValidator("param", idParamSchema),
     zValidator("json", bookSchema),
     async (c) => {
@@ -82,7 +85,7 @@ const bookRoute = new Hono<{ Bindings: Env }>()
     }
   )
   // Delete a book
-  .delete("/:id", zValidator("param", idParamSchema), async (c) => {
+  .delete("/:id", requireToken, zValidator("param", idParamSchema), async (c) => {
     const { id } = c.req.valid("param");
     const db = drizzle(c.env.DATABASE_URL);
     const [removed] = await db.delete(book).where(eq(book.id, id)).returning();
