@@ -11,18 +11,21 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.7.3",
-    "@neondatabase/serverless": "^1.0.1",
-    "dotenv": "^17.2.3",
-    "drizzle-orm": "^0.44.5",
-    "hono": "^4.9.9",
-    "zod": "^4.1.11"
+    "@hono/zod-validator": "^0.9.1",
+    "@neondatabase/serverless": "^1.2.0",
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.13.14",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@hono/vite-build": "^1.7.0",
-    "@hono/vite-dev-server": "^0.21.1",
-    "drizzle-kit": "^0.31.5",
-    "vite": "^7.1.7",
-    "wrangler": "^4.40.2"
+    "@hono/vite-build": "^1.11.1",
+    "@hono/vite-dev-server": "^0.26.1",
+    "dotenv": "^18.0.9",
+    "drizzle-kit": "^0.31.11",
+    "vite": "^8.3.5",
+    "wrangler": "^4.152.0"
+  },
+  "overrides": {
+    "undici": "7.30.1"
   }
 }
